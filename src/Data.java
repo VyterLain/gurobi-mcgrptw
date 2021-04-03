@@ -20,6 +20,8 @@ public class Data {
     public int[][] nodeTimeGraph;
     public int[][] taskTimeGraph;
 
+    public static int BIG_NUM = 10000000;
+
     public void initBasicInfo(int value, int type) {
         switch (type) {
             case 1 -> this.optimalValue = value;
@@ -118,6 +120,50 @@ public class Data {
         if (values[0].startsWith("NrE")) {
             nodeDistGraph[to][from] = t_cost;
             nodeTimeGraph[to][from] = t_time;
+        }
+    }
+
+    public void preprocess() {
+        for (int row = 0; row < nodeDistGraph.length; row++) {
+            for (int col = 0; col < nodeDistGraph[row].length; col++) {
+                if (row != col && nodeDistGraph[row][col] == 0) nodeDistGraph[row][col] = BIG_NUM;
+            }
+        }
+        // Dijkstra
+        for (int node = 1; node <= nodes; node++) {
+            boolean[] visited = new boolean[nodes + 1];
+            int[] row = nodeDistGraph[node];
+            int[] time_row = nodeTimeGraph[node]; // time
+            visited[node] = true;
+            for (int i = 1; i < nodes; i++) {
+                int md = BIG_NUM;
+                int mn = -1;
+                for (int j = 1; j <= nodes; j++) {
+                    if (!visited[j] && md >= row[j]) {
+                        md = row[j];
+                        mn = j;
+                    }
+                }
+                visited[mn] = true;
+                for (int j = 1; j <= nodes; j++) {
+                    if (!visited[j] && row[j] > row[mn] + nodeDistGraph[mn][j]) {
+                        row[j] = row[mn] + nodeDistGraph[mn][j];
+                        time_row[j] = time_row[mn] + nodeTimeGraph[mn][j];
+                    }
+                }
+            }
+        }
+        for (int row = 0; row < taskDistGraph.length; row++) {
+            int pre;
+            if (row == 0) pre = depotNode;
+            else pre = allTasks[row - 1].to;
+            for (int col = 0; col < taskDistGraph[row].length; col++) {
+                int next;
+                if (col == 0) next = depotNode;
+                else next = allTasks[col - 1].from;
+                taskDistGraph[row][col] = nodeDistGraph[pre][next];
+                taskTimeGraph[row][col] = nodeTimeGraph[pre][next];
+            }
         }
     }
 

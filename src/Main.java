@@ -5,6 +5,7 @@ public class Main {
         try {
             Data[] allData = IO.ReadAllData("src/data");
             for (Data data : allData) System.out.println(data);
+            System.out.println("main");
         } catch (IOException e) {
             e.printStackTrace();
         }

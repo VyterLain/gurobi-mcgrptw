@@ -35,8 +35,14 @@ public class IO {
         return data;
     }
 
-    public static void WriteData(Solver solve) throws IOException {
-        // TODO
+    public static void WriteData(Solver[] solvers) throws IOException {
+        // TODO: detailed stat of gurobi, like name, vars, constr, node, time, UB, LB, gap
+        for (Solver solver : solvers) {
+            File f = new File("src/output/result/" + solver.data.instName + ".txt");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            bw.write(solver.solution.toString());
+            bw.close();
+        }
     }
 
     private static void OutputDistMatrix(Data data, String prefix) throws IOException {

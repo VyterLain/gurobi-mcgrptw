@@ -10,7 +10,8 @@ public class Data {
     public int requiredN;
     public int requiredE;
     public int requiredA;
-    public Task[] allTasks; // nodes, arcs, edges, reverseEdges
+    public Task depot;
+    public Task[] allTasks; // nodes, arcs, edges, reverseEdges， correspond to the task graph(no depot)
     public Task[] nodeTasks;
     public Task[] edgeTasks;
     public Task[] edgeReverseTasks;
@@ -124,6 +125,7 @@ public class Data {
     }
 
     public void preprocess() {
+        depot = new Task("N" + depotNode, Type.Depot, 0, depotNode, depotNode, 0, 0, 0, 0, 0, BIG_NUM);
         for (int row = 0; row < nodeDistGraph.length; row++) {
             for (int col = 0; col < nodeDistGraph[row].length; col++) {
                 if (row != col && nodeDistGraph[row][col] == 0) nodeDistGraph[row][col] = BIG_NUM;

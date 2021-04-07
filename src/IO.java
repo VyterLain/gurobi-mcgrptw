@@ -36,13 +36,17 @@ public class IO {
     }
 
     public static void WriteData(Solver[] solvers) throws IOException {
-        // TODO: detailed stat of gurobi, like name, vars, constr, node, time, UB, LB, gap
+        File csv = new File("src/output/result/stat.csv");
+        BufferedWriter bw_csv = new BufferedWriter(new FileWriter(csv));
+        bw_csv.write("inst name,vars,constr,node,time,UB,LB,gap");
         for (Solver solver : solvers) {
-            File f = new File("src/output/result/" + solver.data.instName + ".txt");
-            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-            bw.write(solver.solution.toString());
-            bw.close();
+            bw_csv.write(solver.toString());
+            File txt = new File("src/output/result/" + solver.data.instName + ".txt");
+            BufferedWriter bw_txt = new BufferedWriter(new FileWriter(txt));
+            bw_txt.write(solver.solution.toString());
+            bw_txt.close();
         }
+        bw_csv.close();
     }
 
     private static void OutputDistMatrix(Data data, String prefix) throws IOException {

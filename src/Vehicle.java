@@ -5,7 +5,7 @@ public class Vehicle {
     private final Data data;
     private final int id;
     private int c;
-    private final List<Task> r = new ArrayList<>();
+    public final List<Task> r = new ArrayList<>();
 
     public Vehicle(Data data, int id, Task[] ts) {
         this.data = data;

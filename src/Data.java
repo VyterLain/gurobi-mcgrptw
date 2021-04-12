@@ -86,8 +86,8 @@ public class Data {
         int end = Integer.parseInt(values[9]);
         nodeDistGraph[from][to] = nodeDistGraph[to][from] = t_cost;
         nodeTimeGraph[from][to] = nodeTimeGraph[to][from] = t_time;
-        Task t = new Task(values[0], Type.Arc, demand, from, to, t_cost, s_cost, t_time, s_time, begin, end);
-        Task tr = new Task(values[0], Type.Arc, demand, to, from, t_cost, s_cost, t_time, s_time, begin, end);
+        Task t = new Task(values[0], Type.Edge, demand, from, to, t_cost, s_cost, t_time, s_time, begin, end);
+        Task tr = new Task(values[0], Type.Edge, demand, to, from, t_cost, s_cost, t_time, s_time, begin, end);
         allTasks[requiredN + requiredA + index] = t;
         allTasks[requiredN + requiredA + requiredE + index] = tr;
         edgeTasks[index] = t;
@@ -167,6 +167,25 @@ public class Data {
                 taskTimeGraph[row][col] = nodeTimeGraph[pre][next];
             }
         }
+    }
+
+    public int getAllDemandedDist() {
+        int res = 0;
+        for (Task t : arcTasks) res += t.t_cost;
+        for (Task t : edgeTasks) res += t.t_cost;
+        return res;
+    }
+
+    public Task getReverseTask(Task t) {
+        if (t.type == Type.Edge) {
+            for (int i = 0; i < edgeTasks.length; i++) {
+                if (t == edgeTasks[i]) return edgeReverseTasks[i];
+            }
+            for (int i = 0; i < edgeReverseTasks.length; i++) {
+                if (t == edgeReverseTasks[i]) return edgeTasks[i];
+            }
+        } else return t;
+        return null;
     }
 
     @Override

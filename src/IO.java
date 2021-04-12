@@ -51,6 +51,7 @@ public class IO {
 
     private static void OutputDistMatrix(Data data, String prefix) throws IOException {
         StringBuilder sb = new StringBuilder(data.toString());
+        sb.append("nodes dist:\n");
         for (int row = 0; row < data.nodeDistGraph.length; row++) {
             for (int col = 0; col < data.nodeDistGraph[row].length; col++) {
                 int num = data.nodeDistGraph[row][col];
@@ -59,6 +60,23 @@ public class IO {
                 sb.append(num).append("\t\t");
             }
             sb.append('\n');
+        }
+        if (prefix.equals("processed")) {
+            sb.append("tasks dist:\n");
+            sb.append(String.format("%10s", ""));
+            sb.append(String.format("%-10s", data.depot.toString()));
+            for (Task t : data.allTasks) sb.append(String.format("%-10s", t.toString()));
+            sb.append('\n');
+            for (int row = 0; row < data.taskDistGraph.length; row++) {
+                if (row == 0) sb.append(String.format("%-10s", data.depot.toString()));
+                else sb.append(String.format("%-10s", data.allTasks[row - 1].toString()));
+                for (int col = 0; col < data.taskDistGraph[row].length; col++) {
+                    int num = data.taskDistGraph[row][col];
+                    if ((data.taskDistGraph[row][col] >= Data.BIG_NUM) && row != col) num = -1;
+                    sb.append(String.format("%-10d", num));
+                }
+                sb.append('\n');
+            }
         }
         File f = new File("src/output/dist/" + prefix + "/" + data.instName + ".txt");
         BufferedWriter bw = new BufferedWriter(new FileWriter(f));
@@ -76,6 +94,23 @@ public class IO {
                 sb.append(num).append("\t\t");
             }
             sb.append('\n');
+        }
+        if (prefix.equals("processed")) {
+            sb.append("tasks dist:\n");
+            sb.append(String.format("%10s", ""));
+            sb.append(String.format("%-10s", data.depot.toString()));
+            for (Task t : data.allTasks) sb.append(String.format("%-10s", t.toString()));
+            sb.append('\n');
+            for (int row = 0; row < data.taskTimeGraph.length; row++) {
+                if (row == 0) sb.append(String.format("%-10s", data.depot.toString()));
+                else sb.append(String.format("%-10s", data.allTasks[row - 1].toString()));
+                for (int col = 0; col < data.taskTimeGraph[row].length; col++) {
+                    int num = data.taskTimeGraph[row][col];
+                    if ((data.taskTimeGraph[row][col] >= Data.BIG_NUM) && row != col) num = -1;
+                    sb.append(String.format("%-10d", num));
+                }
+                sb.append('\n');
+            }
         }
         File f = new File("src/output/time/" + prefix + "/" + data.instName + ".txt");
         BufferedWriter bw = new BufferedWriter(new FileWriter(f));

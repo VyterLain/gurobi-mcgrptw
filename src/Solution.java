@@ -5,14 +5,17 @@ import java.util.List;
 
 public class Solution {
     private int c;
+    private final Data data;
     private final List<Vehicle> vs = new ArrayList<>();
     private final String status;
 
-    public Solution(String status) {
+    public Solution(Data data, String status) {
+        this.data = data;
         this.status = status;
     }
 
-    public Solution(Vehicle[] vs) {
+    public Solution(Data data, Vehicle[] vs) {
+        this.data = data;
         for (Vehicle i : vs) add(i);
         status = "feasible";
     }
@@ -23,12 +26,10 @@ public class Solution {
     }
 
     public String solution_type() {
-        if (status.equals("feasible")) return "feasible";
-        else if (status.equals("not found")) return "not found";
-        else return "infeasible";
+        return status;
     }
 
-    public boolean check_solution(Data data) {
+    public boolean check_solution() {
         HashSet<Task> set = new HashSet<>(Arrays.asList(data.allTasks.clone()));
         for (Vehicle v : vs) {
             int load = 0;
@@ -49,10 +50,12 @@ public class Solution {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Solution{cost => ");
-        sb.append(c).append(", routes =>\n");
-        for (Vehicle r : vs) sb.append('\t').append(r.toString()).append('\n');
-        sb.append('}');
-        return sb.toString();
+        if (solution_type().equals("feasible")) {
+            StringBuilder sb = new StringBuilder("Solution{cost => ");
+            sb.append(c).append(", routes =>\n");
+            for (Vehicle r : vs) sb.append('\t').append(r.toString()).append('\n');
+            sb.append("}solution check: ").append(check_solution());
+            return sb.toString();
+        } else return solution_type();
     }
 }

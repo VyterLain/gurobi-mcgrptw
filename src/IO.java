@@ -27,11 +27,11 @@ public class IO {
 //        strings.forEach(System.out::println);
         data.initArray();
         for (int i = 0; i < strings.size(); i++) data.initTasksInfo(strings.get(i).split("\t"), i);
-        OutputDistMatrix(data, "raw");
-        OutputTimeMatrix(data, "raw");
+//        OutputDistMatrix(data, "raw");
+//        OutputTimeMatrix(data, "raw");
         data.preprocess();
-        OutputDistMatrix(data, "processed");
-        OutputTimeMatrix(data, "processed");
+//        OutputDistMatrix(data, "processed");
+//        OutputTimeMatrix(data, "processed");
         return data;
     }
 
@@ -57,23 +57,23 @@ public class IO {
                 int num = data.nodeDistGraph[row][col];
                 if ((data.nodeDistGraph[row][col] >= Data.BIG_NUM || data.nodeDistGraph[row][col] <= 0) && row != col)
                     num = -1;
-                sb.append(num).append("\t\t");
+                sb.append(String.format("%-8d", num));
             }
             sb.append('\n');
         }
         if (prefix.equals("processed")) {
             sb.append("tasks dist:\n");
-            sb.append(String.format("%10s", ""));
-            sb.append(String.format("%-10s", data.depot.toString()));
-            for (Task t : data.allTasks) sb.append(String.format("%-10s", t.toString()));
+            sb.append(String.format("%14s", ""));
+            sb.append(String.format("%-14s", data.depot.toString()));
+            for (Task t : data.allTasks) sb.append(String.format("%-14s", t.toString()));
             sb.append('\n');
             for (int row = 0; row < data.taskDistGraph.length; row++) {
-                if (row == 0) sb.append(String.format("%-10s", data.depot.toString()));
-                else sb.append(String.format("%-10s", data.allTasks[row - 1].toString()));
+                if (row == 0) sb.append(String.format("%-14s", data.depot.toString()));
+                else sb.append(String.format("%-14s", data.allTasks[row - 1].toString()));
                 for (int col = 0; col < data.taskDistGraph[row].length; col++) {
                     int num = data.taskDistGraph[row][col];
                     if ((data.taskDistGraph[row][col] >= Data.BIG_NUM) && row != col) num = -1;
-                    sb.append(String.format("%-10d", num));
+                    sb.append(String.format("%-14d", num));
                 }
                 sb.append('\n');
             }
@@ -91,23 +91,23 @@ public class IO {
                 int num = data.nodeTimeGraph[row][col];
                 if ((data.nodeTimeGraph[row][col] >= Data.BIG_NUM || data.nodeTimeGraph[row][col] <= 0) && row != col)
                     num = -1;
-                sb.append(num).append("\t\t");
+                sb.append(String.format("%-8d", num));
             }
             sb.append('\n');
         }
         if (prefix.equals("processed")) {
             sb.append("tasks dist:\n");
-            sb.append(String.format("%10s", ""));
-            sb.append(String.format("%-10s", data.depot.toString()));
-            for (Task t : data.allTasks) sb.append(String.format("%-10s", t.toString()));
+            sb.append(String.format("%14s", ""));
+            sb.append(String.format("%-14s", data.depot.toString()));
+            for (Task t : data.allTasks) sb.append(String.format("%-14s", t.toString()));
             sb.append('\n');
             for (int row = 0; row < data.taskTimeGraph.length; row++) {
-                if (row == 0) sb.append(String.format("%-10s", data.depot.toString()));
-                else sb.append(String.format("%-10s", data.allTasks[row - 1].toString()));
+                if (row == 0) sb.append(String.format("%-14s", data.depot.toString()));
+                else sb.append(String.format("%-14s", data.allTasks[row - 1].toString()));
                 for (int col = 0; col < data.taskTimeGraph[row].length; col++) {
                     int num = data.taskTimeGraph[row][col];
                     if ((data.taskTimeGraph[row][col] >= Data.BIG_NUM) && row != col) num = -1;
-                    sb.append(String.format("%-10d", num));
+                    sb.append(String.format("%-14d", num));
                 }
                 sb.append('\n');
             }

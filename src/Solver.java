@@ -113,8 +113,8 @@ public class Solver {
                     gap = model.get(GRB.DoubleAttr.MIPGap);
                     // get solution
                     solution = getSolution(x);
-                } else solution = new Solution("not found");
-            } else solution = new Solution("infeasible");
+                } else solution = new Solution(data, "not found");
+            } else solution = new Solution(data, "infeasible");
             // end gurobi
             model.dispose();
             env.dispose();
@@ -144,7 +144,7 @@ public class Solver {
             Vehicle v = new Vehicle(data, k + 1, (Task[]) tasks.toArray());
             vehicles.add(v);
         }
-        return new Solution((Vehicle[]) vehicles.toArray());
+        return new Solution(data, (Vehicle[]) vehicles.toArray());
     }
 
     private void init() {
